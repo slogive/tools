@@ -5,17 +5,22 @@ const data = {
   sdd_guest_email: 'cesar@slogive.com',
 };
 
-function generateSql({ data, collection }: { data: any; collection: string }) {
+function putSql({ data, collection, where }: { data: any; collection: string; where: string }) {
+  const keys = Object.keys(data);
+  const entries = Object.entries(data);
+
   return `
-	UPDATE ${collection}
-	SET
-  ${Array(Object.keys(data).length)
-    .fill('')
-    .map((ITEM, INDEX) => `${INDEX !== 0 ? '\n	' : ''}${Object.keys(data)[INDEX]} = '${Object.entries(data)[INDEX][1]}'`)}
-	WHERE sdd_id = ${data.sdd_id};
-`;
+   UPDATE ${collection}
+   SET
+   ${Array(keys.length)
+     .fill('')
+     .map((It, In: number) => {
+       return `${In !== 0 ? '\n	' : ''}${keys[In]} = '${entries[In][1] == 'REVOKE' ? '' : entries[In][1]}'`;
+     })}
+   WHERE ${where} = '${data[where]}';
+ `;
 }
 
-const sql = generateSql({ data: data, collection: 'sdd' });
+const sql = putSql({ data: data, collection: 'sdd', where: 'sdd_id' });
 
 console.log(sql);
